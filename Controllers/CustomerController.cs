@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Bangazon.Data;
 using Bangazon.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace Bangazon.Controllers
 {
     [Produces("application/json")]
     [Route("customers")]
+    [EnableCors("TeamOnly")]
     public class CustomersController : Controller
     {
         private BangazonContext context;
@@ -74,6 +76,7 @@ namespace Bangazon.Controllers
             }
 
             context.Customer.Add(customer);
+            
             try
             {
                 context.SaveChanges();

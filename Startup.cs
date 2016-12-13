@@ -31,18 +31,13 @@ namespace BangazonAPI
         public void ConfigureServices(IServiceCollection services)
         {
             Console.WriteLine("ConfigureServices");
+
+            // Add CORS framework
+            services.AddCors();
+
             // Add framework services.
             services.AddMvc();
 
-            // Add CORS framework
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AllowDevelopmentEnvironment",
-                    builder => builder
-                        .AllowAnyOrigin()
-                        .AllowAnyMethod()
-                        .AllowAnyHeader());
-            });
 
             string path = System.Environment.GetEnvironmentVariable("Bangazon_Db_Path");
             var connection = $"Filename={path}";
@@ -53,11 +48,15 @@ namespace BangazonAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            app.UseCors(options => options.WithOrigins("www.acme.com"));
+
             Console.WriteLine("Configure");
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
             app.UseMvc();
+
         }
     }
 }
