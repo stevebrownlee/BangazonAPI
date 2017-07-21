@@ -39,7 +39,7 @@ namespace BangazonAPI
             services.AddMvc();
 
 
-            string path = System.Environment.GetEnvironmentVariable("Bangazon_Db_Path");
+            string path = System.Environment.GetEnvironmentVariable("BANGAZON_DB");
             var connection = $"Filename={path}";
             Console.WriteLine($"connection = {connection}");
             services.AddDbContext<BangazonContext>(options => options.UseSqlite(connection));
